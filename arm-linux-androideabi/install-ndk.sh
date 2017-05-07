@@ -11,11 +11,11 @@
 
 set -ex
 
-curl -O https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip
-unzip -q android-ndk-r13b-linux-x86_64.zip
-android-ndk-r13b/build/tools/make_standalone_toolchain.py \
+curl -O https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+unzip -q android-ndk-r14b-linux-x86_64.zip
+android-ndk-r14b/build/tools/make_standalone_toolchain.py \
         --install-dir /android/ndk-arm \
         --arch arm \
         --api 24
 
-rm -rf ./android-ndk-r13b-linux-x86_64.zip ./android-ndk-r13b
+rm -rf ./android-ndk-r14b-linux-x86_64.zip ./android-ndk-r14b
