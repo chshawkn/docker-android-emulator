@@ -17,6 +17,7 @@ RUN dpkg --add-architecture amd64 && \
   gcc \
   libc6-dev && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+    /cargo/bin/cargo update && \
     /cargo/bin/rustup toolchain install 1.17.0 && \
     /cargo/bin/rustup target list | grep android | xargs /cargo/bin/rustup target install && \
     /cargo/bin/rustup target list | grep apple | xargs /cargo/bin/rustup target install && \
