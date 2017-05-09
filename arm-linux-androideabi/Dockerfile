@@ -23,7 +23,6 @@ RUN dpkg --add-architecture i386 && \
     /cargo/bin/rustup toolchain install 1.17.0 && \
     /cargo/bin/rustup target list | grep android | xargs /cargo/bin/rustup target install && \
     /cargo/bin/rustup target list | grep apple | xargs /cargo/bin/rustup target install && \
-    /cargo/bin/cargo update && \
     ln -s $(rustc --print sysroot) /rust
 
 COPY cargo_config /cargo/config
