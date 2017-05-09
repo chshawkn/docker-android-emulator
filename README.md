@@ -7,12 +7,12 @@ debug:
 
     docker pull chshawkn/android-emulator:${1}-gcc
 
+    # cannot find name for user ID xxx: --user `id -u`:`id -g` \
+    # --volume $HOME/.cargo:/cargo \
+    # --env CARGO_HOME=/cargo \
+    # --volume `rustc --print sysroot`:/rust:ro \
     docker run \
-          --user `id -u`:`id -g` \
           --rm \
-          --volume $HOME/.cargo:/cargo \
-          --env CARGO_HOME=/cargo \
-          --volume `rustc --print sysroot`:/rust:ro \
           --volume `pwd`:/checkout:ro \
           --volume `pwd`/target:/checkout/target \
           --env CARGO_TARGET_DIR=/checkout/target \
