@@ -14,3 +14,9 @@ linker = "/android/ndk-arm64/bin/arm-linux-androideabi-gcc"
 [target.i686-linux-android]
 ar = "/android/ndk-arm64/bin/i686-linux-android-ar"
 linker = "/android/ndk-arm64/bin/i686-linux-android-gcc"
+
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index"
+replace-with = 'ustc'
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
