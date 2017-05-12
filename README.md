@@ -22,3 +22,15 @@ debug:
           --tty \
           chshawkn/android-emulator:aarch64-linux-android-gcc \
           /bin/bash
+
+    docker run \
+          --rm \
+          --volume `pwd`:/checkout:ro \
+          --volume `pwd`/target:/checkout/target \
+          --env CARGO_TARGET_DIR=/checkout/target \
+          --workdir /checkout \
+          --privileged \
+          --interactive \
+          --tty \
+          libc \
+          /bin/bash

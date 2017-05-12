@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 ENV CARGO_HOME=/cargo \
     RUSTUP_HOME=/rustup \
     PATH=$PATH:/rust/bin:/cargo/bin
-#libstdc++6:i386
+#lib32stdc++6 libstdc++6-arm64-cross libstdc++6-armel-cross
 RUN dpkg --add-architecture i386 && \
     dpkg --add-architecture amd64 && \
     apt-get update && \
@@ -15,10 +15,11 @@ RUN dpkg --add-architecture i386 && \
   unzip \
   expect \
   openjdk-9-jre \
-  lib32stdc++6 libstdc++6:amd64 libstdc++6-arm64-cross libstdc++6-armel-cross \
+  libstdc++6:i386 \
   gcc \
   libc6-dev \
-  libpulse0:amd64 && \
+  qt5-default zlib1g:i386 libx11-6:i386 \
+  libpulse0:amd64 libpulse0:i386 && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     /cargo/bin/rustup toolchain install 1.17.0 && \
     /cargo/bin/rustup target list | grep android | xargs /cargo/bin/rustup target install && \
@@ -32,15 +33,16 @@ WORKDIR /android/
 COPY install-ndk.sh /android/
 RUN sh /android/install-ndk.sh
 
-ENV PATH=$PATH:/android/ndk-arm64/bin:/android/sdk/tools:/android/sdk/platform-tools
+#:/android/sdk/bin
+ENV PATH=$PATH:/android/ndk-arm64/bin:/android/sdk/tools:/android/sdk/tools/bin:/android/sdk/platform-tools:/android/sdk/emulator/qemu/linux-x86_64
 
-COPY install-sdk.sh accept-licenses.sh /android/
+COPY install-sdk.sh /android/
 RUN sh /android/install-sdk.sh
 
 ENV CARGO_TARGET_ARM_LINUX_ANDROIDEABI_LINKER=aarch64-linux-android-gcc \
     ANDROID_EMULATOR_FORCE_32BIT=0 \
     HOME=/tmp
-RUN chmod 755 /android/sdk/tools/* /android/sdk/tools/qemu/linux-x86_64/* /android/sdk/tools/qemu/linux-x86/*
+RUN chmod 755 /android/sdk/tools/* /android/sdk/emulator/qemu/linux-x86_64/*
 
 RUN cp -r /root/.android /tmp
 RUN chmod 777 -R /tmp/.android

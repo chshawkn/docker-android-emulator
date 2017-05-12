@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Copyright 2016 The Rust Project Developers. See the COPYRIGHT
 # file at the top-level directory of this distribution and at
 # http://rust-lang.org/COPYRIGHT.
@@ -19,15 +19,26 @@ set -ex
 # which apparently magically accepts the licenses.
 
 mkdir sdk
-curl https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz | \
-    tar xzf - -C sdk --strip-components=1
+#curl https://dl.google.com/android/android-sdk_r25.2.3-linux.tgz | \
+#    tar xzf - -C sdk --strip-components=1
+#curl -o tools_r25.2.3-linux.zip https://dl.google.com/android/repository/tools_r25.2.3-linux.zip && unzip tools_r25.2.3-linux.zip && mv tools sdk/
+curl -o sdk-tools-linux-3859397.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && unzip sdk-tools-linux-3859397.zip && mv tools sdk/
+#filter="platform-tools,android-24,sys-img-arm64-v8a-android-24"
+#./accept-licenses.sh "android - update sdk -a --no-ui --filter $filter"
+#./accept-licenses.sh "sdkmanager tools platform-tools \"build-tools;25.0.2\" \"platforms;android-24\" \"system-images;android-24;default;arm64-v8a\""
+yes | sdkmanager --licenses
+sdkmanager tools platform-tools "build-tools;25.0.2" "platforms;android-24" "system-images;android-24;default;arm64-v8a"
 
-filter="platform-tools,android-24"
-filter="$filter,sys-img-arm64-v8a-android-24"
+#echo "no" | android create avd \
+#                --force \
+#                --name arm64-24 \
+#                --target android-24 \
+#                --abi arm64-v8a \
+#                --sdcard 1024M
 
-./accept-licenses.sh "android - update sdk -a --no-ui --filter $filter"
-
-echo "no" | android create avd \
+echo "no" | avdmanager create avd \
+                --force \
                 --name arm64-24 \
-                --target android-24 \
-                --abi arm64-v8a
+                --package "system-images;android-24;default;arm64-v8a" \
+                --abi arm64-v8a \
+                --sdcard 256M
