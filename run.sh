@@ -34,6 +34,7 @@ case "$TARGET" in
     adb root
     adb push $TEST_FILE /data/mio-test
     #adb unroot will cause /system/bin/sh: /data/mio-test: not found
+    adb shell chmod 755 /data/mio-test
     adb shell /data/mio-test 2>&1 | tee /tmp/out
     grep "^test result.* 0 failed" /tmp/out
     ;;
